@@ -40,9 +40,6 @@ function formatAnnot(ann) {
 function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
                    annotationUI, bridge) {
 
-  // List of frames currently connected to the sidebar
-  var frames = [];
-
   // Set of tags of annotations that are currently loaded into the frame
   var inFrame = new Set();
 
@@ -149,14 +146,10 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
         });
       }
 
-      // The `frames` list is currently stored by this service but should in
-      // future be moved to the app state.
-      $rootScope.$apply(function () {
-        frames.push({
-          uri: info.uri,
-          searchUris: searchUris,
-          documentFingerprint: documentFingerprint,
-        });
+      annotationUI.connectFrame({
+        uri: info.uri,
+        searchUris: searchUris,
+        documentFingerprint: documentFingerprint,
       });
     });
   }
@@ -193,12 +186,6 @@ function FrameSync($rootScope, $window, AnnotationUISync, Discovery,
   this.scrollToAnnotation = function (tag) {
     bridge.call('scrollToAnnotation', tag);
   };
-
-  /**
-   * List of frames that are connected to the app.
-   * @type {FrameInfo}
-   */
-  this.frames = frames;
 }
 
 module.exports = {
