@@ -272,6 +272,17 @@ function annotationExists(state, id) {
   });
 }
 
+function findIDsForTags(state, tags) {
+  var ids = [];
+  tags.forEach(function (tag) {
+    var annot = findByTag(state.annotations, tag);
+    if (annot && annot.id) {
+      ids.push(annot.id);
+    }
+  });
+  return ids;
+}
+
 module.exports = {
   init: init,
   update: update,
@@ -284,5 +295,6 @@ module.exports = {
 
   // Selectors
   annotationExists: annotationExists,
+  findIDsForTags: findIDsForTags,
   savedAnnotations: savedAnnotations,
 };
